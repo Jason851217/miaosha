@@ -58,6 +58,7 @@ public class Result<T> {
         //通用模块
         public static final CodeMsg SUCCESS = new CodeMsg(0, "success");
         public static final CodeMsg SERVER_ERROR= new CodeMsg(500100, "服务器异常");
+        public static final CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
 
         //登陆模块5002xx
         public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500200, "登录密码不能为空");
@@ -95,6 +96,17 @@ public class Result<T> {
 
         public void setMsg(String msg) {
             this.msg = msg;
+        }
+
+        public CodeMsg fillArgs(Object... args) {
+            int code = this.code;
+            String message = String.format(this.msg, args);
+            return new CodeMsg(code, message);
+        }
+
+        @Override
+        public String toString() {
+            return "CodeMsg [code=" + code + ", msg=" + msg + "]";
         }
 
     }

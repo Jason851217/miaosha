@@ -1,6 +1,6 @@
 package com.learningcenter.miaosha.service;
 
-import com.learningcenter.miaosha.controller.LoginDto;
+import com.learningcenter.miaosha.dto.LoginDto;
 import com.learningcenter.miaosha.dto.Result;
 import com.learningcenter.miaosha.model.MiaoShaUser;
 
@@ -14,5 +14,5 @@ import com.learningcenter.miaosha.model.MiaoShaUser;
 public interface MiaoShaUserService {
     MiaoShaUser getUserById(long id);
 
-    Result.CodeMsg login(LoginDto loginDto);
+    boolean login(LoginDto loginDto);
 }

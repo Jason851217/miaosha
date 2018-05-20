@@ -1,5 +1,6 @@
 package com.learningcenter.miaosha.controller;
 
+import com.learningcenter.miaosha.dto.LoginDto;
 import com.learningcenter.miaosha.dto.Result;
 import com.learningcenter.miaosha.service.MiaoShaUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -32,23 +35,24 @@ public class LoginController {
         return "login";
     }
 
-
+    /**
+     * JSR303参数校验
+     * @param loginDto
+     * @param loginDtoValidResult
+     * @return
+     */
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result login(LoginDto loginDto){
-        String mobile = loginDto.getMobile();
-        String pwd = loginDto.getPassword();
+    public Result login(@Valid LoginDto loginDto, BindingResult loginDtoValidResult){
+//        if(loginDtoValidResult.hasErrors()){
+//            for (ObjectError error : loginDtoValidResult.getAllErrors()) {
+//                log.info(error.getDefaultMessage());
+//            }
+//        }
+        //@Valid LoginDto loginDto 验证异常都将被全局异常处理起处理
         log.info(loginDto.toString());
-        if(StringUtils.isEmpty(pwd)){
-            return Result.error(Result.CodeMsg.PASSWORD_EMPTY);
-        }
-        if(StringUtils.isEmpty(mobile)){
-            return Result.error(Result.CodeMsg.MOBILE_EMPTY);
-        }
-        Result.CodeMsg codeMsg =  miaoShaUserService.login(loginDto);
-        if(codeMsg.getCode()!=0){
-            return Result.error(codeMsg);
-        }
+        //login操作抛出的异常都将被全局异常处理起处理
+        miaoShaUserService.login(loginDto);
         return Result.success(true);
     }
 

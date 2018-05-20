@@ -22,8 +22,13 @@ public class RedisService {
     private JedisPool jedisPool;
 
 
-
-
+    /**
+     * 获取key对应的value
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public <T> T get(String key, Class<T> clazz) {
         Jedis jedis = null;
         try {
@@ -36,6 +41,11 @@ public class RedisService {
         }
     }
 
+    /**
+     * 检查某个key的值是否存在
+     * @param key
+     * @return
+     */
     public boolean exists(String key) {
         Jedis jedis = null;
         try {
@@ -46,6 +56,13 @@ public class RedisService {
         }
     }
 
+    /**
+     * 设置key的值，用不过期
+     * @param key
+     * @param value
+     * @param <T>
+     * @return
+     */
     public <T> boolean set(String key, T value) {
         Jedis jedis = null;
         try {
@@ -60,6 +77,60 @@ public class RedisService {
             return2Pool(jedis);
         }
     }
+
+    /**
+     * 设置key的值，并指定过期时间
+     * @param key
+     * @param value
+     * @param expireSeconds
+     * @param <T>
+     * @return
+     */
+    public <T> boolean setEx(String key, T value,int expireSeconds) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            String result = convertBean2String(value);
+            if (result == null) {
+                return false;
+            }
+
+            jedis.setex(key,expireSeconds, result);
+            return true;
+        } finally {
+            return2Pool(jedis);
+        }
+    }
+
+    /**
+     * 原子递增
+     * @param key
+     * @return
+     */
+    public Long incr(String key){
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.incr(key);
+        } finally {
+            return2Pool(jedis);
+        }
+    }
+    /**
+     * 原子递减
+     * @param key
+     * @return
+     */
+    public Long decr(String key){
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.decr(key);
+        } finally {
+            return2Pool(jedis);
+        }
+    }
+
 
     private <T> String convertBean2String(T value) {
         if (value == null) {

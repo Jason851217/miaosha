@@ -26,8 +26,8 @@ public class Result<T> {
 
     private Result(T data) {
         this.data = data;
-        this.code = CodeMsg.SUCCESS_CODE_MSG.getCode();
-        this.msg = CodeMsg.SUCCESS_CODE_MSG.getMsg();
+        this.code = CodeMsg.SUCCESS.getCode();
+        this.msg = CodeMsg.SUCCESS.getMsg();
     }
 
     private Result(CodeMsg codeMsg) {
@@ -56,12 +56,14 @@ public class Result<T> {
      */
     public static class CodeMsg {
         //通用模块
-        public static final CodeMsg SUCCESS_CODE_MSG = new CodeMsg(0, "success");
-        public static final CodeMsg SERVERERROR_CODE_MSG = new CodeMsg(500100, "服务器异常");
+        public static final CodeMsg SUCCESS = new CodeMsg(0, "success");
+        public static final CodeMsg SERVER_ERROR= new CodeMsg(500100, "服务器异常");
 
         //登陆模块5002xx
         public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500200, "登录密码不能为空");
         public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500201, "手机号不能为空");
+        public static final CodeMsg USER_NOT_EXISTS =new CodeMsg(500202, "用户不存在") ;
+        public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500203, "密码错误");
 
         //商品模块5003xx
 

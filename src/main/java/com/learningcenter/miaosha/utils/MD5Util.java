@@ -6,17 +6,53 @@ import com.google.common.hash.Hashing;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.security.MessageDigest;
+import java.util.Random;
 
 /**
  * 描述:
  * MD5加密工具类
+ *
  * @author Jason
  * @email 285290078@qq.com
  * @create 2018-05-20 17:58
  **/
 public class MD5Util {
 
-    private static final String SALT = "imooc";
+    private static final String SALT = "1a2b3c4d";
+
+
+    public static String inputPwd2formPwd(String input) {
+        String str = "" + SALT.charAt(0) + SALT.charAt(2) + input + SALT.charAt(5) + SALT.charAt(4);
+        return md5WithCodec(str);
+    }
+
+    public static String formPwd2dbPwd(String input, String randomSalt) {
+        String str = "" + randomSalt.charAt(0) + randomSalt.charAt(2) + input + randomSalt.charAt(5) + randomSalt.charAt(4);
+        return md5WithCodec(str);
+    }
+
+    public static String inputPwd2dbPwd(String input, String randomSalt) {
+        return formPwd2dbPwd(inputPwd2formPwd(input), randomSalt);
+    }
+
+    /**
+     * 获取指定长度的随机数
+     *
+     * @param length
+     * @return
+     */
+    public static String randomSalt(int length) {
+
+        char[] chars = {'a', 'b', 'c', 'd', 'e', 'f'};
+
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int n = (int) (Math.random() * 5);
+            sb.append(chars[n]);
+        }
+        return sb.toString();
+    }
+
 
     public static String md5WithJdk(String src) {
         try {
@@ -27,9 +63,6 @@ public class MD5Util {
             throw new RuntimeException(e);
         }
     }
-
-
-
 
 
     public static String md5WithCodec(String src) {
@@ -44,9 +77,10 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(md5WithCodec("zhanghuaua"));
-        System.out.println(md5WithGuava("zhanghua"));
-        System.out.println(md5WithJdk("zhanghua"));
+        System.out.println(inputPwd2formPwd("1qaz2wsx"));
+//        System.out.println(md5WithGuava("zhanghua"));
+//        System.out.println(md5WithJdk("zhanghua"));
+//        System.out.println(randomSalt(7));
 
     }
 

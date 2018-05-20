@@ -54,12 +54,14 @@ public class Result<T> {
     /**
      * 统一管理状态码和消息描述类
      */
-    private static class CodeMsg {
+    public static class CodeMsg {
         //通用模块
         public static final CodeMsg SUCCESS_CODE_MSG = new CodeMsg(0, "success");
         public static final CodeMsg SERVERERROR_CODE_MSG = new CodeMsg(500100, "服务器异常");
 
         //登陆模块5002xx
+        public static final CodeMsg PASSWORD_EMPTY = new CodeMsg(500200, "登录密码不能为空");
+        public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500201, "手机号不能为空");
 
         //商品模块5003xx
 

@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.sql.DataSource;
@@ -13,7 +14,7 @@ import javax.sql.DataSource;
 @ServletComponentScan
 @MapperScan("com.learningcenter.miaosha.dao") // 通过注解@MapperScan去寻找mybatis mapper，还可以通过@Mapper标示在数据访问接口上
 
-public class MiaoshaApplication {
+public class MiaoshaApplication  {
 
     public static void main(String[] args) {
        ConfigurableApplicationContext context =  SpringApplication.run(MiaoshaApplication.class, args);

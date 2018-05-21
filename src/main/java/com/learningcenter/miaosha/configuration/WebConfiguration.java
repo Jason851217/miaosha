@@ -68,6 +68,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
             private String getCookieValue(HttpServletRequest request, String cookieToken) {
                 Cookie[] cookies = request.getCookies();
+                if(cookies == null || cookies.length<=0){
+                    return null;
+                }
                 //Java8 中的Stream
                 Optional<Cookie> cookie = Stream.of(cookies).filter((cookieItem) -> {
                             return StringUtils.equals(cookieItem.getName(), cookieToken);

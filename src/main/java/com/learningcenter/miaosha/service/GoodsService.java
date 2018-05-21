@@ -13,4 +13,6 @@ import java.util.List;
  **/
 public interface GoodsService {
     List<GoodsDto> listGoodsVo();
+
+    GoodsDto getGoodsById(long goodsId);
 }

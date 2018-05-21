@@ -77,12 +77,52 @@ public class GoodsController {
 //        return "good_list";
 //    }
 
-
+    /**
+     * 秒杀商品列表
+     * @param model
+     * @param user
+     * @return
+     */
     @RequestMapping("/to_list")
-    public String toGoodsList(Model model,MiaoShaUser user) {
+    public String toGoodsList(Model model, MiaoShaUser user) {
         model.addAttribute("user", user);
-       List<GoodsDto> goodsList = goodsService.listGoodsVo();
-       model.addAttribute("goodsList",goodsList);
+        List<GoodsDto> goodsList = goodsService.listGoodsVo();
+        model.addAttribute("goodsList", goodsList);
         return "goods_list";
+    }
+
+    /**
+     * 秒杀商品详情
+     * @param model
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @RequestMapping("/to_detail/{goodsId}")
+    public String toGoodsDetail(Model model, MiaoShaUser user, @PathVariable("goodsId") long goodsId) {
+        model.addAttribute("user", user);
+        GoodsDto goodsDto = goodsService.getGoodsById(goodsId);
+        model.addAttribute("goods", goodsDto);
+        long startAt = goodsDto.getStart_date().getTime();
+        long endAt = goodsDto.getEnd_date().getTime();
+        long now = System.currentTimeMillis();
+        int miaoshaStatus = 0;
+        int remainSeconds = 0;
+        if (now < startAt) {
+            //秒杀还没开始
+            miaoshaStatus = 0;
+            remainSeconds = (int) ((startAt - now) / 1000);//开始秒杀的剩余时间
+        } else if (now > endAt) {
+            //秒杀已结束
+            miaoshaStatus = 2;
+            remainSeconds = -1;
+        } else {
+            //秒杀进行中
+            miaoshaStatus = 1;
+            remainSeconds = 0;
+        }
+        model.addAttribute("miaoshaStatus", miaoshaStatus);
+        model.addAttribute("remainSeconds", remainSeconds);
+        return "goods_detail";
     }
 }

@@ -17,4 +17,10 @@ public interface GoodsDao {
             "left join goods g\n" +
             "on mg.goods_id=g.id")
     List<GoodsDto> listGoodsVo();
+
+    @Select("select mg.miaosha_price,mg.stock_count,mg.start_date,mg.end_date,g.* from  miaosha_goods mg \n" +
+            "left join goods g\n" +
+            "on mg.goods_id=g.id\n" +
+            "where g.id=#{0}")
+    GoodsDto getGoodsById(long goodsId);
 }

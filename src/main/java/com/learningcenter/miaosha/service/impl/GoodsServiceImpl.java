@@ -24,4 +24,9 @@ public class GoodsServiceImpl implements GoodsService {
     public List<GoodsDto> listGoodsVo() {
         return goodsDao.listGoodsVo();
     }
+
+    @Override
+    public GoodsDto getGoodsById(long goodsId) {
+        return goodsDao.getGoodsById(goodsId);
+    }
 }

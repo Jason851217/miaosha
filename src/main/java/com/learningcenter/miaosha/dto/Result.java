@@ -66,12 +66,14 @@ public class Result<T> {
         public static final CodeMsg USER_NOT_EXISTS =new CodeMsg(500202, "用户不存在") ;
         public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500203, "密码错误");
 
+
         //商品模块5003xx
 
         // 订单模块5004xx
 
         // 秒杀模块5005xx
-
+        public static final Object NO_STOCK =new CodeMsg(500500, "商品已经秒杀完毕") ;
+        public static final Object MIAOSHA_REPEATE = new CodeMsg(500501, "不能重复秒杀") ;
 
         private CodeMsg(int code, String msg) {
             this.code = code;

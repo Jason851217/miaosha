@@ -78,6 +78,16 @@ public class RedisService {
         }
     }
 
+    public long delete(String key) {
+        Jedis jedis = null;
+        try {
+            jedis = jedisPool.getResource();
+            return jedis.del(key);
+        } finally {
+            return2Pool(jedis);
+        }
+    }
+
     /**
      * 设置key的值，并指定过期时间
      * @param key

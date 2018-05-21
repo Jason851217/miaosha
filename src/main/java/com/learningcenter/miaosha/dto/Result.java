@@ -65,6 +65,7 @@ public class Result<T> {
         public static final CodeMsg MOBILE_EMPTY = new CodeMsg(500201, "手机号不能为空");
         public static final CodeMsg USER_NOT_EXISTS =new CodeMsg(500202, "用户不存在") ;
         public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500203, "密码错误");
+        public static final CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500501, "手机号不存在") ;
 
 
         //商品模块5003xx
@@ -74,6 +75,7 @@ public class Result<T> {
         // 秒杀模块5005xx
         public static final Object NO_STOCK =new CodeMsg(500500, "商品已经秒杀完毕") ;
         public static final Object MIAOSHA_REPEATE = new CodeMsg(500501, "不能重复秒杀") ;
+
 
         private CodeMsg(int code, String msg) {
             this.code = code;

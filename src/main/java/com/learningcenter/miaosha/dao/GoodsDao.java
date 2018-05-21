@@ -27,7 +27,7 @@ public interface GoodsDao {
             "where g.id=#{0}")
     GoodsDto getGoodsById(long goodsId);
 
-
-    @Update("update miaosha_goods set stock_count = stock_count -1 where goods_id=#{goods_id}")
+    //数据库的乐观锁解决超卖问题，更新是行锁，不会出现两个线程同时更新1条记录的情况
+    @Update("update miaosha_goods set stock_count = stock_count -1 where goods_id=#{goods_id} and stock_count>0")
     int reduceStock(MiaoShaGoods miaoShaGoods);
 }

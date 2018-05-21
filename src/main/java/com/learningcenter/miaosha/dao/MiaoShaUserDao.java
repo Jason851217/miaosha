@@ -13,4 +13,6 @@ import org.apache.ibatis.annotations.Select;
 public interface MiaoShaUserDao {
     @Select("select * from miaosha_user where id=#{0}")
     MiaoShaUser getUserById(long id);
+
+    int update(MiaoShaUser toBeUpdate);
 }

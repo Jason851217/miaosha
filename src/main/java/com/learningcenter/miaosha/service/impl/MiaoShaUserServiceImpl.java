@@ -38,7 +38,39 @@ public class MiaoShaUserServiceImpl implements MiaoShaUserService {
 
     @Override
     public MiaoShaUser getUserById(long id) {
-        return miaoShaUserDao.getUserById(id);
+        //取缓存
+        MiaoShaUser user = redisService.get("miaoshauser:getById:"+id, MiaoShaUser.class);
+        if(user != null) {
+            return user;
+        }
+        //取数据库
+        user = miaoShaUserDao.getUserById(id);
+        if(user != null) {
+            //加入到缓存
+            redisService.set("miaoshauser:getById:"+id, user);
+        }
+        return user;
+    }
+
+    // http://blog.csdn.net/tTU1EvLDeLFq5btqiK/article/details/78693323
+    public boolean updatePassword(String token, long id, String formPass) {
+        //取user
+        MiaoShaUser user = getUserById(id);
+        if(user == null) {
+            throw new GlobalException(Result.CodeMsg.MOBILE_NOT_EXIST);
+        }
+        //更新数据库（这里为什么要new一个对象而不是直接使用user对象，是因为更新的字段越多影响性能，所以修改哪些字段就更新哪些字段）
+        MiaoShaUser toBeUpdate = new MiaoShaUser();
+        toBeUpdate.setId(id);
+        toBeUpdate.setPwd(MD5Util.formPwd2dbPwd(formPass, user.getSalt()));
+        //先把数据存到数据库中，成功后，再让缓存失效
+        miaoShaUserDao.update(toBeUpdate);
+        //处理缓存(让和当前修改记录相关的所有缓存都要更新)
+        redisService.delete("miaoshauser:getById:"+id);
+        user.setPwd(toBeUpdate.getPwd());
+        //更新token缓存
+        redisService.set(TOKEN_PREFIX+token, user);
+        return true;
     }
 
     @Override

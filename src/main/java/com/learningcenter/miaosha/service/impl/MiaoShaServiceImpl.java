@@ -31,8 +31,8 @@ public class MiaoShaServiceImpl implements MiaoShaService {
     @Transactional
     public OrderInfo miaosha(MiaoShaUser user, GoodsDto goods) {
         //1.减库存 2.下订单 3.写入秒杀订单
-        goodsService.reduceStock(goods); // 减库存
-        OrderInfo orderInfo = orderService.createOrder(user, goods); // 下订单  order_info miaosha_order
+        goodsService.reduceStock(goods); // 减库存，利用数据库的乐观锁解决超卖问题，更新是行锁，不会出现两个线程同时更新1条记录的情况
+        OrderInfo orderInfo = orderService.createOrder(user, goods); // 下订单  order_info miaosha_order  注意：为了防止一个用户发出对同一个商品的多个秒杀请求，我们利用数据中的唯一索引，这里，我们在miaosha_order中将userid和goodsid建一个唯一索引
 
         return orderInfo;
     }

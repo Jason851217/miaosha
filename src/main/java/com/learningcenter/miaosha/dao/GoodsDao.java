@@ -1,7 +1,10 @@
 package com.learningcenter.miaosha.dao;
 
 import com.learningcenter.miaosha.dto.GoodsDto;
+import com.learningcenter.miaosha.model.Goods;
+import com.learningcenter.miaosha.model.MiaoShaGoods;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -23,4 +26,8 @@ public interface GoodsDao {
             "on mg.goods_id=g.id\n" +
             "where g.id=#{0}")
     GoodsDto getGoodsById(long goodsId);
+
+
+    @Update("update miaosha_goods set stock_count = stock_count -1 where goods_id=#{goods_id}")
+    int reduceStock(MiaoShaGoods miaoShaGoods);
 }

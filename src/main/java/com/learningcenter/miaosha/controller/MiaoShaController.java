@@ -22,6 +22,7 @@ import java.util.Optional;
  * @create 2018-05-21 15:13
  **/
 @Controller
+@RequestMapping("/miaosha")
 public class MiaoShaController {
     @Autowired
     private MiaoShaUserService miaoShaUserService;
@@ -45,18 +46,18 @@ public class MiaoShaController {
         GoodsDto goods = goodsService.getGoodsById(goodsId);
         int stock = goods.getStock_count();
         if (stock <= 0) {
-            model.addAttribute("errormsg", Result.CodeMsg.NO_STOCK);
-            return "miaosha_failure";
+            model.addAttribute("errmsg", Result.CodeMsg.NO_STOCK);
+            return "miaosha_fail";
         }
         //判断是否已经秒杀到了
         MiaoShaOrder miaoShaOrder = orderService.getMiaoShaOrderByUserIdAndGoodsId(user.getId(), goodsId);
         //Java8 Optional的使用方式
         Optional<MiaoShaOrder> orderOptional = Optional.ofNullable(miaoShaOrder);
         if (orderOptional.isPresent()) {
-            model.addAttribute("errormsg", Result.CodeMsg.MIAOSHA_REPEATE);
-            return "miaosha_failure";
+            model.addAttribute("errmsg", Result.CodeMsg.MIAOSHA_REPEATE);
+            return "miaosha_fail";
         }
-        //1.减库存 2.下订单 3.写入秒杀订单
+        //秒杀
         OrderInfo orderInfo = miaoShaService.miaosha(user,goods); //为什么该接口要返回订单信息？因为我们希望秒杀成功之后，显示订单详细信息
         model.addAttribute("user", user);
         model.addAttribute("goods",goods);

@@ -1,6 +1,9 @@
 package com.learningcenter.miaosha.service;
 
+import com.learningcenter.miaosha.dto.GoodsDto;
 import com.learningcenter.miaosha.model.MiaoShaOrder;
+import com.learningcenter.miaosha.model.MiaoShaUser;
+import com.learningcenter.miaosha.model.OrderInfo;
 
 /**
  * 描述:
@@ -12,4 +15,5 @@ import com.learningcenter.miaosha.model.MiaoShaOrder;
 public interface OrderService {
 
     MiaoShaOrder getMiaoShaOrderByUserIdAndGoodsId(Long userId,Long goodsId );
+    OrderInfo createOrder(MiaoShaUser user, GoodsDto goods);
 }

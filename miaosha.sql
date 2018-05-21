@@ -56,7 +56,7 @@ CREATE TABLE `order_info` (
 
 -- 秒杀订单表(主要记录，哪个用户秒杀了哪个商品)
 CREATE TABLE `miaosha_order` (
-  `id` bigint(20) NOT NULL COMMENT '秒杀订单id',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '秒杀订单id',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
   `goods_id` bigint(20) DEFAULT NULL COMMENT '商品id',
   `order_id` bigint(20) DEFAULT NULL COMMENT '订单id',

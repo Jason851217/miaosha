@@ -2,6 +2,8 @@ package com.learningcenter.miaosha.service.impl;
 
 import com.learningcenter.miaosha.dao.GoodsDao;
 import com.learningcenter.miaosha.dto.GoodsDto;
+import com.learningcenter.miaosha.model.Goods;
+import com.learningcenter.miaosha.model.MiaoShaGoods;
 import com.learningcenter.miaosha.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,5 +30,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public GoodsDto getGoodsById(long goodsId) {
         return goodsDao.getGoodsById(goodsId);
+    }
+
+    @Override
+    public void reduceStock(GoodsDto goods) {
+        MiaoShaGoods miaoShaGoodsg = new MiaoShaGoods();
+        miaoShaGoodsg.setGoods_id(goods.getId());
+        goodsDao.reduceStock(miaoShaGoodsg);
     }
 }

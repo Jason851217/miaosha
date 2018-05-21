@@ -11,20 +11,20 @@ import java.util.Date;
  * @create 2018-05-20 21:40
  **/
 public class MiaoShaUser implements Serializable {
-    private long id;
+    private Long id;
     private String nickname;
     private String pwd;
     private String salt;
     private String head;
     private Date register_date;
     private Date last_login_date;
-    private int login_count;
+    private Long login_count;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -76,11 +76,25 @@ public class MiaoShaUser implements Serializable {
         this.last_login_date = last_login_date;
     }
 
-    public int getLogin_count() {
+    public Long getLogin_count() {
         return login_count;
     }
 
-    public void setLogin_count(int login_count) {
+    public void setLogin_count(Long login_count) {
         this.login_count = login_count;
+    }
+
+    @Override
+    public String toString() {
+        return "MiaoShaUser{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", salt='" + salt + '\'' +
+                ", head='" + head + '\'' +
+                ", register_date=" + register_date +
+                ", last_login_date=" + last_login_date +
+                ", login_count=" + login_count +
+                '}';
     }
 }

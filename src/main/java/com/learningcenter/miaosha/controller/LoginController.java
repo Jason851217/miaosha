@@ -13,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -43,7 +44,7 @@ public class LoginController {
      */
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result login(@Valid LoginDto loginDto, BindingResult loginDtoValidResult){
+    public Result login(@Valid LoginDto loginDto, BindingResult loginDtoValidResult, HttpServletResponse response){
 //        if(loginDtoValidResult.hasErrors()){
 //            for (ObjectError error : loginDtoValidResult.getAllErrors()) {
 //                log.info(error.getDefaultMessage());
@@ -52,7 +53,7 @@ public class LoginController {
         //@Valid LoginDto loginDto 验证异常都将被全局异常处理起处理
         log.info(loginDto.toString());
         //login操作抛出的异常都将被全局异常处理起处理
-        miaoShaUserService.login(loginDto);
+        miaoShaUserService.login(response,loginDto);
         return Result.success(true);
     }
 

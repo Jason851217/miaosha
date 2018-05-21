@@ -29,7 +29,7 @@ public class UserUtil {
 			user.setLogin_count(1);
 			user.setNickname("user"+i);
 			user.setRegister_date(new Date());
-			user.setSalt("1a2b3c");
+			user.setSalt(MD5Util.randomSalt(6));
 			user.setPwd(MD5Util.inputPwd2dbPwd("123456", user.getSalt()));
 			users.add(user);
 		}
@@ -54,7 +54,7 @@ public class UserUtil {
 //		System.out.println("insert to db");
 		//登录，生成token
 		String urlString = "http://localhost:8080/login/do_login";
-		File file = new File("D:/tokens.txt");
+		File file = new File("/Users/apple/token");
 		if(file.exists()) {
 			file.delete();
 		}

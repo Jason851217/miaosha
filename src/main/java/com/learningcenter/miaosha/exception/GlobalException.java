@@ -1,7 +1,6 @@
 package com.learningcenter.miaosha.exception;
 
 import com.learningcenter.miaosha.dto.Result;
-import com.sun.tools.javac.jvm.Code;
 
 /**
  * 定义一个全局异常

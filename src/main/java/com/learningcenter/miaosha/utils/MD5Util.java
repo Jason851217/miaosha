@@ -78,6 +78,11 @@ public class MD5Util {
 
     public static void main(String[] args) {
         System.out.println(inputPwd2formPwd("1qaz2wsx"));
+        String randomSalt = randomSalt(6);
+        System.out.println(randomSalt);
+        System.out.println(inputPwd2dbPwd("1qaz2wsx",randomSalt));
+
+
 //        System.out.println(md5WithGuava("zhanghua"));
 //        System.out.println(md5WithJdk("zhanghua"));
 //        System.out.println(randomSalt(7));

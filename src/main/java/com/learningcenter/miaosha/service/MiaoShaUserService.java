@@ -4,6 +4,8 @@ import com.learningcenter.miaosha.dto.LoginDto;
 import com.learningcenter.miaosha.dto.Result;
 import com.learningcenter.miaosha.model.MiaoShaUser;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 描述:
  *
@@ -14,5 +16,7 @@ import com.learningcenter.miaosha.model.MiaoShaUser;
 public interface MiaoShaUserService {
     MiaoShaUser getUserById(long id);
 
-    boolean login(LoginDto loginDto);
+    boolean login(HttpServletResponse response,LoginDto loginDto);
+
+    MiaoShaUser getByToken(HttpServletResponse response,String token);
 }

@@ -1,8 +1,10 @@
 package com.learningcenter.miaosha.controller;
 
+import com.learningcenter.miaosha.dto.GoodsDto;
 import com.learningcenter.miaosha.dto.Result;
 import com.learningcenter.miaosha.exception.GlobalException;
 import com.learningcenter.miaosha.model.MiaoShaUser;
+import com.learningcenter.miaosha.service.GoodsService;
 import com.learningcenter.miaosha.service.MiaoShaUserService;
 import com.learningcenter.miaosha.service.RedisService;
 import com.learningcenter.miaosha.service.impl.MiaoShaUserServiceImpl;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 描述:
@@ -33,6 +36,9 @@ public class GoodsController {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private GoodsService goodsService;
 //
 //    @ModelAttribute   //1.@ModelAttribute注释void返回值的方法
 //    public void populateModel(Model model) {
@@ -75,6 +81,8 @@ public class GoodsController {
     @RequestMapping("/to_list")
     public String toGoodsList(Model model,MiaoShaUser user) {
         model.addAttribute("user", user);
-        return "good_list";
+       List<GoodsDto> goodsList = goodsService.listGoodsVo();
+       model.addAttribute("goodsList",goodsList);
+        return "goods_list";
     }
 }

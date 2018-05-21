@@ -18,7 +18,7 @@ public class MiaoShaUser implements Serializable {
     private String head;
     private Date register_date;
     private Date last_login_date;
-    private Long login_count;
+    private Integer login_count;
 
     public Long getId() {
         return id;
@@ -76,11 +76,11 @@ public class MiaoShaUser implements Serializable {
         this.last_login_date = last_login_date;
     }
 
-    public Long getLogin_count() {
+    public Integer getLogin_count() {
         return login_count;
     }
 
-    public void setLogin_count(Long login_count) {
+    public void setLogin_count(Integer login_count) {
         this.login_count = login_count;
     }
 

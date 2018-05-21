@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(value=Exception.class) // @ExceptionHandle可以写多个，对不同的异常进行处理
 	public Result<String> exceptionHandler(HttpServletRequest request, Exception e){
-//		e.printStackTrace();
+		e.printStackTrace();
 		if(e instanceof GlobalException) {
 			GlobalException ex = (GlobalException)e;
 			return Result.error(ex.getCm());

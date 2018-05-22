@@ -1,6 +1,7 @@
 package com.learningcenter.miaosha.controller;
 
 import com.learningcenter.miaosha.dto.Result;
+import com.learningcenter.miaosha.rabbitmq.MQSender;
 import com.learningcenter.miaosha.service.RedisService;
 import com.learningcenter.miaosha.service.UserService;
 import com.learningcenter.miaosha.model.User;
@@ -26,6 +27,9 @@ public class DemoController {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private MQSender mqSender;
 
 
     @RequestMapping("/thymeleaf")
@@ -54,5 +58,30 @@ public class DemoController {
         User user = userService.getUserById(1);
         boolean value = redisService.set("User:getById:"+1,user);
         return Result.success(value);
+    }
+
+
+    @RequestMapping("/mq")
+    @ResponseBody
+    public Object mq(){
+        User user = userService.getUserById(1);
+        mqSender.send(user);
+        return Result.success(user);
+    }
+
+    @RequestMapping("/mq_topic")
+    @ResponseBody
+    public Object topic(){
+        User user = userService.getUserById(1);
+        mqSender.sendTopic(user);
+        return Result.success(user);
+    }
+
+    @RequestMapping("/mq_fanout")
+    @ResponseBody
+    public Object fanout(){
+        User user = userService.getUserById(1);
+        mqSender.sendFanoutExchange(user);
+        return Result.success(user);
     }
 }

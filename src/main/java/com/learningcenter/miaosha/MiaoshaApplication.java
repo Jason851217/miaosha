@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @ServletComponentScan
 @MapperScan("com.learningcenter.miaosha.dao") // 通过注解@MapperScan去寻找mybatis mapper，还可以通过@Mapper标示在数据访问接口上
-
 public class MiaoshaApplication  {
 
     public static void main(String[] args) {

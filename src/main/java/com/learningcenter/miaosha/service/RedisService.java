@@ -142,7 +142,7 @@ public class RedisService {
     }
 
 
-    private <T> String convertBean2String(T value) {
+    public static <T> String convertBean2String(T value) {
         if (value == null) {
             return null;
         }
@@ -175,7 +175,7 @@ public class RedisService {
         return JSONObject.toJSONString(value);
     }
 
-    private <T> T convertString2Bean(String result, Class<T> clazz) {
+    public static <T> T convertString2Bean(String result, Class<T> clazz) {
         if (result == null || result.trim().length() == 0) {
             return null;
         }

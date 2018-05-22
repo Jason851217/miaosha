@@ -1,5 +1,6 @@
 package com.learningcenter.miaosha.configuration;
 
+import com.learningcenter.miaosha.access.AccessInterceptor;
 import com.learningcenter.miaosha.model.MiaoShaUser;
 import com.learningcenter.miaosha.service.MiaoShaUserService;
 import com.learningcenter.miaosha.service.RedisService;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +39,13 @@ import java.util.stream.Stream;
 public class WebConfiguration implements WebMvcConfigurer {
     @Autowired
     private MiaoShaUserService miaoShaUserService;
+    @Autowired
+    AccessInterceptor accessInterceptor;
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(accessInterceptor);
+    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {

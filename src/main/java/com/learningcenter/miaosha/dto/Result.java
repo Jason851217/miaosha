@@ -76,6 +76,7 @@ public class Result<T> {
         public static final CodeMsg NO_STOCK =new CodeMsg(500500, "商品已经秒杀完毕") ;
         public static final CodeMsg MIAOSHA_REPEATE = new CodeMsg(500501, "不能重复秒杀") ;
         public static final CodeMsg MIAOSHA_OVER = new CodeMsg(500502, "秒杀结束") ;;
+        public static final CodeMsg ACCESS_LIMIT_REACHED = new CodeMsg(500502, "秒杀结束");
 
 
         private CodeMsg(int code, String msg) {

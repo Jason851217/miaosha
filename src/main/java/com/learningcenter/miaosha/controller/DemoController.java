@@ -84,4 +84,12 @@ public class DemoController {
         mqSender.sendFanoutExchange(user);
         return Result.success(user);
     }
+
+    @RequestMapping("/mq_headers")
+    @ResponseBody
+    public Object headers(){
+        User user = userService.getUserById(1);
+        mqSender.sendHeaders(user);
+        return Result.success(user);
+    }
 }

@@ -24,12 +24,17 @@ public class MQReceiver {
     }
 
     @RabbitListener(queues = RabbitMQConfiguration.message)
-    public void receiveMessageTop(String msg){
+    public void receiveTopic(String msg){
         System.out.println(RabbitMQConfiguration.message+" queue recieve msg:"+msg);
     }
 
     @RabbitListener(queues = RabbitMQConfiguration.messages)
-    public void receiveMessagesTop(String msg){
+    public void receiveTopics(String msg){
         System.out.println(RabbitMQConfiguration.messages+" queue recieve msg:"+msg);
+    }
+
+    @RabbitListener(queues = RabbitMQConfiguration.HEADERS_QUEUE)
+    public void receiveHeader(byte[] msg){
+        System.out.println(RabbitMQConfiguration.HEADERS_QUEUE+" queue recieve msg:"+new String(msg));
     }
 }

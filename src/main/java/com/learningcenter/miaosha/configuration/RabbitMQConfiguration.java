@@ -3,6 +3,10 @@ package com.learningcenter.miaosha.configuration;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.handler.annotation.Headers;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 描述:
@@ -39,6 +43,7 @@ public class RabbitMQConfiguration {
     public final static String message = "topic.message";
     public final static String messages = "topic.messages";
     public final static String queue = "my_queue";
+    public static final String HEADERS_QUEUE = "headers_queue";
 
     @Bean
     public Queue myQueue(){
@@ -91,4 +96,28 @@ public class RabbitMQConfiguration {
     Binding bindingQueueMessage(Queue queueMessage,FanoutExchange fanoutExchange) {
         return BindingBuilder.bind(queueMessage).to(fanoutExchange);
     }
+
+    /**
+     * Headers模式
+     */
+    @Bean
+    public Queue headersQueue() {
+        return new Queue(HEADERS_QUEUE);
+    }
+
+    @Bean
+    HeadersExchange headersExchange() {
+        return new HeadersExchange("headersExchange");
+    }
+
+    @Bean
+    Binding bindingHeadersMessage(Queue headersQueue,HeadersExchange headersExchange) {
+        Map<String,Object> conditions = new HashMap<String,Object>();
+        conditions.put("header1","value1");
+        conditions.put("header2","value2");
+        return BindingBuilder.bind(headersQueue).to(headersExchange).whereAll(conditions).match();
+    }
+
+
+
 }

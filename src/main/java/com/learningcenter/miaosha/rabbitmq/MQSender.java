@@ -3,11 +3,15 @@ package com.learningcenter.miaosha.rabbitmq;
 import com.learningcenter.miaosha.configuration.RabbitMQConfiguration;
 import com.learningcenter.miaosha.service.RedisService;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.nio.charset.Charset;
 
 /**
  * 描述:
@@ -22,16 +26,13 @@ public class MQSender {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    /**
-     * Direct模式：消息直接发送到队列中
-     * @param message
-     */
+    // Direct模式：消息直接发送到队列中
     public void send(Object message){
         String msg = RedisService.convertBean2String(message);
         System.out.println("send msg:"+msg);
         rabbitTemplate.convertAndSend(RabbitMQConfiguration.queue,msg);
     }
-
+     //topic
     public void sendTopic(Object message){
         String msg = RedisService.convertBean2String(message);
         System.out.println("send msg:"+msg);
@@ -42,6 +43,17 @@ public class MQSender {
         String msg = RedisService.convertBean2String(message);
         System.out.println("send msg:"+msg);
         rabbitTemplate.convertAndSend("fanoutExchange","",msg); // msg会被发送到fanoutExchange绑定的所有队列，这里会将消息转发到my_queue和topic.message这两个队列中
+    }
+
+
+    public void sendHeaders(Object message){
+        String msg = RedisService.convertBean2String(message);
+        System.out.println("send msg:"+msg);
+        MessageProperties messageProperties = new MessageProperties();
+        messageProperties.setHeader("header1","value1");
+        messageProperties.setHeader("header2","value2");//注意这里的header必须和绑定时的map key value一致
+        Message msgResult = new Message(msg.getBytes(Charset.forName("utf-8")),messageProperties);
+        rabbitTemplate.convertAndSend("headersExchange","",msgResult);
     }
 
 

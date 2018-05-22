@@ -118,6 +118,23 @@ public class RabbitMQConfiguration {
         return BindingBuilder.bind(headersQueue).to(headersExchange).whereAll(conditions).match();
     }
 
+    @Bean
+    public Queue miaoshaQueue() {
+        return new Queue("miaosha_queue");
+    }
+
+    @Bean
+    TopicExchange miaoshaExchange() {
+        return new TopicExchange("miaosha_exchange");
+    }
+
+    @Bean
+    Binding bindingMiaoShaMessage(Queue miaoshaQueue,TopicExchange miaoshaExchange) {
+        return BindingBuilder.bind(miaoshaQueue).to(miaoshaExchange).with("miaosha");
+    }
+
+
+
 
 
 }

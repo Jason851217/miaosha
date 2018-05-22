@@ -13,4 +13,5 @@ import com.learningcenter.miaosha.model.OrderInfo;
  **/
 public interface MiaoShaService {
     OrderInfo miaosha(MiaoShaUser user, GoodsDto goods);
+    long getMiaoshaResult(Long userId, long goodsId);
 }

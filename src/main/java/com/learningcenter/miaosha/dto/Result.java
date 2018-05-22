@@ -73,8 +73,9 @@ public class Result<T> {
         // 订单模块5004xx
 
         // 秒杀模块5005xx
-        public static final Object NO_STOCK =new CodeMsg(500500, "商品已经秒杀完毕") ;
-        public static final Object MIAOSHA_REPEATE = new CodeMsg(500501, "不能重复秒杀") ;
+        public static final CodeMsg NO_STOCK =new CodeMsg(500500, "商品已经秒杀完毕") ;
+        public static final CodeMsg MIAOSHA_REPEATE = new CodeMsg(500501, "不能重复秒杀") ;
+        public static final CodeMsg MIAOSHA_OVER = new CodeMsg(500502, "秒杀结束") ;;
 
 
         private CodeMsg(int code, String msg) {

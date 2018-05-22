@@ -1,6 +1,7 @@
 package com.learningcenter.miaosha.rabbitmq;
 
 import com.learningcenter.miaosha.configuration.RabbitMQConfiguration;
+import com.learningcenter.miaosha.dto.MiaoShaMessage;
 import com.learningcenter.miaosha.service.RedisService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
@@ -58,5 +59,10 @@ public class MQSender {
 
 
 
+
+    public void sendMiaoShaMessage(MiaoShaMessage message){
+        String msg = RedisService.convertBean2String(message);
+        rabbitTemplate.convertAndSend("miaosha_exchange","miaosha",msg);
+    }
 
 }

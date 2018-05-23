@@ -33,28 +33,27 @@ public class AccessInterceptor  extends HandlerInterceptorAdapter{
 			throws Exception {
 		if(handler instanceof HandlerMethod) {
 			MiaoShaUser user = getUser(request, response);
-			UserContext.setUser(user);
+			UserContext.setUser(user); // ThreadLocal 线程安全，每个线程隔离
 			HandlerMethod hm = (HandlerMethod)handler;
-			AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
-			if(accessLimit == null) { // 没有AccessLimit的方法不拦截
+			AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class); // 获取方法上的AccessLimit注解
+			if(accessLimit == null) { // 没有AccessLimit注解的方法不拦截
 				return true;
 			}
-			int seconds = accessLimit.seconds();
+			int seconds = accessLimit.seconds();//获取注解属性
 			int maxCount = accessLimit.maxCount();
 			boolean needLogin = accessLimit.needLogin();
-			String key = request.getRequestURI();
-			if(needLogin) {
+			String key = request.getRequestURI();//使用请求路径
+			if(needLogin) { //如果需要登录
 				if(user == null) { // 注解了需要登录，但是没有user，则拦截掉
 					render(response, Result.CodeMsg.SERVER_ERROR);
 					return false;
 				}
 				key += "_" + user.getId();
-			}else {
-				//do nothing
 			}
-			Integer count = redisService.get("access"+key, Integer.class);
-	    	if(count  == null) {
-	    		 redisService.set("access:"+key, 1);
+
+			Integer count = redisService.get("access"+key, Integer.class); // redis获取对应接口访问的次数
+	    	if(count  == null) { // 第一次访问，或者过了有效期
+	    		 redisService.setEx("access:"+key, 1,seconds);
 	    	}else if(count < maxCount) {
 	    		 redisService.incr("access:"+key);
 	    	}else { //count大于最大访问次数则拦截掉
@@ -66,7 +65,7 @@ public class AccessInterceptor  extends HandlerInterceptorAdapter{
 	}
 	
 	private void render(HttpServletResponse response, Result.CodeMsg cm)throws Exception {
-		response.setContentType("application/json;charset=UTF-8");
+		response.setContentType("application/json;charset=UTF-8");//设置相应内容类型
 		OutputStream out = response.getOutputStream();
 		String str  = JSON.toJSONString(Result.error(cm));
 		out.write(str.getBytes("UTF-8"));

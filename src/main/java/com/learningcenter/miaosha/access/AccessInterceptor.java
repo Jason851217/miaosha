@@ -19,6 +19,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * 用于限流的拦截器
+ */
 @Service
 public class AccessInterceptor  extends HandlerInterceptorAdapter{
 	
